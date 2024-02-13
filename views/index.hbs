@@ -1,0 +1,48 @@
+<style>
+    .delete-btn {
+        border: none;
+        outline: none;
+        background-color: transparent;
+    }
+    .delete-btn:hover{
+        color: #fff;
+    }
+</style>
+<h1>Main page</h1>
+
+{{#if products.length}}
+<div class="container">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        {{#each products}}
+        <div class="col">
+            <div class="card shadow-sm">
+                <img src="{{image}}" alt="">
+                <div class="card-body">
+                    <p class="card-text fw-bold">{{title}}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <p>{{formatDate createdAt}}</p>
+                        <small class="text-body-secondary fs-5">{{price}}.00$</small>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="btn-group">
+                        <a href="/product/{{_id}}" type="button" class="btn btn-sm btn-outline-primary">Detail</a>
+                        {{#if @root.token}}
+                        {{#ifequal user @root.userId}}
+                        <a type="button" class="btn btn-sm btn-outline-secondary" href="/edit-product/{{_id}}">Edit</a>
+                        <form action="/delete-product/{{_id}}" method="POST" class="m-0 btn btn-outline-danger">
+                            <button class="delete-btn">Delete</button>
+                        </form>
+                        {{/ifequal}}
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</div>
+{{else}}
+<p>No product found</p>
+
+{{/if}}
